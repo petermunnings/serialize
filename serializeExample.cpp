@@ -52,9 +52,9 @@ void load(std::ifstream &ifs)
 
 int main()
 {
-  std::ofstream ofs("file_test");
+  std::ofstream ofs("animal.bin");
   save(ofs);
-  std::ifstream ifs("file_test");
+  std::ifstream ifs("animal.bin");
   load(ifs);
 }
 
