@@ -7,21 +7,20 @@ using namespace boost::archive;
 
 std::stringstream ss;
 
-class animal
+struct animal
 {
-public:
+  int legs_;
+
   animal() = default;
   animal(int legs) : legs_{legs} {}
   int legs() const { return legs_; }
-
-private:
-  friend class boost::serialization::access;
-
-  template <typename Archive>
-  void serialize(Archive &ar, const unsigned int version) { ar & legs_; }
-
-  int legs_;
 };
+
+template <typename Archive>
+void serialize(Archive &ar, animal &a, const unsigned int version)
+{
+  ar & a.legs_;
+}
 
 void save()
 {
