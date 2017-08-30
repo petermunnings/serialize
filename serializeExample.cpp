@@ -2,13 +2,11 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/string.hpp>
 #include <iostream>
-#include <sstream>
+#include <fstream>
 #include <string>
 #include <utility>
 
 using namespace boost::archive;
-
-std::stringstream ss;
 
 class animal
 {
@@ -36,16 +34,16 @@ void serialize(Archive &ar, animal &a, const unsigned int version)
   ar & a.name_;
 }
 
-void save()
+void save(std::ofstream &ofs)
 {
-  text_oarchive oa{ss};
+  text_oarchive oa{ofs};
   animal a{4, "cat"};
   oa << a;
 }
 
-void load()
+void load(std::ifstream &ifs)
 {
-  text_iarchive ia{ss};
+  text_iarchive ia{ifs};
   animal a;
   ia >> a;
   std::cout << a.legs() << '\n';
@@ -54,6 +52,9 @@ void load()
 
 int main()
 {
-  save();
-  load();
+  std::ofstream ofs("file_test");
+  save(ofs);
+  std::ifstream ifs("file_test");
+  load(ifs);
 }
+
